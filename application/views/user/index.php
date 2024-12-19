@@ -85,13 +85,13 @@
                             Pelaporan Perbaikan
                         </a>
                         <div class="sb-sidenav-menu-heading">Addons</div>
-                        <a class="nav-link" href="<?= base_url('backend/'); ?>charts.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Charts
+                        <a class="nav-link collapsed" href="<?= base_url('user/pemeliharaan') ?>">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            Pelaporan pemeliharaan
                         </a>
-                        <a class="nav-link" href="<?= base_url('backend/'); ?>tables.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Tables
+                        <a class="nav-link collapsed" href="<?= base_url('user/report') ?>">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            Report pemeliharaan
                         </a>
                     </div>
                 </div>
@@ -108,35 +108,107 @@
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
-                    <div class="row">
-                        <div class="col-xl-4 col-md-6">
-                            <div class="card bg-warning text-white mb-4">
-                                <div class="card-body">Dalam Penanganan</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f6f9;
+                            margin: 10px;
+                            padding: 20px;
+                        }
+
+                        .dashboard-grid {
+                            display: flex;
+                            justify-content: space-between;
+                            gap: 20px;
+                            /* Adjust the gap as needed */
+                            margin-bottom: 15px;
+                        }
+
+                        .card {
+                            background: #ffffff;
+                            border: 1px solid #ddd;
+                            border-radius: 30px;
+                            padding: 20px;
+                            text-align: center;
+                            transition: all 0.3s ease;
+                        }
+
+                        .card:hover {
+                            transform: translateY(-10px);
+                            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+                        }
+
+                        .card-header {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            margin-bottom: 20px;
+                            font-size: 20px;
+                            font-weight: bold;
+                        }
+
+                        .card-header .card-title {
+                            margin-right: 80px;
+                        }
+
+                        .card-header i {
+                            font-size: 30px;
+                        }
+
+                        .card-value {
+                            font-size: 40px;
+                            font-weight: bold;
+                            margin-top: 10px;
+                        }
+
+                        /* Responsiveness for smaller screens */
+                        @media (max-width: 768px) {
+                            .dashboard-grid {
+                                flex-direction: column;
+                                gap: 15px;
+                                /* Jarak antar elemen pada layar kecil */
+                            }
+                        }
+                    </style>
+
+                    <body>
+                        <div class="dashboard-grid">
+                            <!-- Card for Total Kejadian -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title">Total Kejadian</span>
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </div>
+                                <div class="card-value" id="totalIncidents">
+                                    <?= htmlspecialchars($totalKejadian) ?>
+                                </div>
+                            </div>
+
+                            <!-- Card for Dalam Penanganan -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title">Dalam Penanganan</span>
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="card-value" id="inProgressIncidents">
+                                    <?= htmlspecialchars($dalamPenanganan) ?>
+                                </div>
+                            </div>
+
+                            <!-- Card for Kejadian Selesai -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="card-title">Kejadian Selesai</span>
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="card-value" id="completedActions">
+                                    <?= htmlspecialchars($kejadianSelesai) ?>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-md-6">
-                            <div class="card bg-success text-white mb-4">
-                                <div class="card-body">Selesai</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-md-6">
-                            <div class="card bg-danger text-white mb-4">
-                                <div class="card-body">Butuh Penanganan</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </body>
+
                     <div class="row">
                         <div class="col-xl-6">
                             <div class="card mb-4">
@@ -380,11 +452,10 @@
                             lastUpdatedElement.textContent = `Updated on ${getFormattedDate()}`;
                         }
                     </script>
-                    </script>
-                    <div class="card mb-4">
+                    <div class="card mb-100">
                         <div class="card-header">
                             <i class="fas fa-table me-1"></i>
-                            DataTable Example
+                            Data Pelaporan Kerusakan
                         </div>
                         <div class="card-body">
                             <table id="datatablesSimple">

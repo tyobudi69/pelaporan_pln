@@ -6,8 +6,12 @@ class home extends CI_Controller {
 	public function index()
 	{
 		$this->load->view('template/home_header');
-		$this->load->view('home/index');
-		$this->load->view('template/home_footer');
+    	$this->load->model('pelaporan_model');
+		$data['jumlah_status'] = $this->pelaporan_model->getJumlahStatusPelaporan();
+    	$data['jumlah_dalam_penanganan'] = $this->pelaporan_model->hitungStatusDalamPenanganan();
+		$data['Selesai'] = $this->pelaporan_model->hitungStatusSelesai();
+    	$this->load->view('home/index', $data);
+    	$this->load->view('template/home_footer');
 
 	}
 

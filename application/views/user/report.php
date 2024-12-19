@@ -1,3 +1,4 @@
+a
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,6 +12,10 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="<?= base_url('backend/'); ?>css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <!-- Import Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="sb-nav-fixed">
@@ -130,9 +135,10 @@
                             <table id="datatablesSimple">
                                 <thead>
                                     <tr>
-                                        <th>Tanggal Laporan</th>
+                                        <th>No Register</th>
                                         <th>Kota/Kabupaten</th>
-                                        <th>Lokasi Kejadian</th>
+                                        <th>Nama</th>
+                                        <th>Alamat</th>
                                         <th>Jenis Kesalahan</th>
                                         <th>Status</th>
                                         <th>Tindakan Lanjutan</th>
@@ -253,15 +259,6 @@
                                         </tr>
                                     <?php endif; ?>
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>Tanggal Laporan</th>
-                                        <th>Lokasi Kejadian</th>
-                                        <th>Jenis Kesalahan</th>
-                                        <th>Status</th>
-                                        <th>Tindakan Lanjutan</th>
-                                    </tr>
-                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -368,6 +365,8 @@
     <script src="<?= base_url('backend/'); ?>assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="<?= base_url('backend/'); ?>js/datatables-simple-demo.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

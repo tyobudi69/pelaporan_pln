@@ -38,7 +38,6 @@
     </div>
     <!-- Navbar & Carousel End -->
 
-
     <!-- Full Screen Search Start -->
     <div class="modal fade" id="searchModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">
@@ -68,8 +67,8 @@
                             <i class="fa fa-users text-primary"></i>
                         </div>
                         <div class="ps-4">
-                            <h5 class="text-white mb-0">Happy Clients</h5>
-                            <h1 class="text-white mb-0" data-toggle="counter-up">12345</h1>
+                            <h5 class="text-white mb-0">Jumlah Pelaporan</h5>
+                            <h1 class="text-white mb-0" data-toggle="counter-up"><?php echo $status_data['jumlah']; ?></h1>
                         </div>
                     </div>
                 </div>
@@ -79,8 +78,8 @@
                             <i class="fa fa-check text-white"></i>
                         </div>
                         <div class="ps-4">
-                            <h5 class="text-primary mb-0">Projects Done</h5>
-                            <h1 class="mb-0" data-toggle="counter-up">12345</h1>
+                            <h5 class="text-primary mb-0">Dalam Penanganan</h5>
+                            <h1 class="mb-0" data-toggle="counter-up"><?php echo $jumlah_dalam_penanganan; ?></h1>
                         </div>
                     </div>
                 </div>
@@ -90,8 +89,8 @@
                             <i class="fa fa-award text-primary"></i>
                         </div>
                         <div class="ps-4">
-                            <h5 class="text-white mb-0">Win Awards</h5>
-                            <h1 class="text-white mb-0" data-toggle="counter-up">12345</h1>
+                            <h5 class="text-white mb-0">Selsai</h5>
+                            <h1 class="text-white mb-0" data-toggle="counter-up"><?php echo $Selesai; ?></h1>
                         </div>
                     </div>
                 </div>

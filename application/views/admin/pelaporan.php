@@ -164,7 +164,6 @@
                                         <th>Lokasi Kejadian</th>
                                         <th>Jenis Kesalahan</th>
                                         <th>Status</th>
-
                                     </tr>
                                 </tfoot>
                             </table>

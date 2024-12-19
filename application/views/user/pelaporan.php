@@ -83,13 +83,13 @@
                             Pelaporan Perbaikan
                         </a>
                         <div class="sb-sidenav-menu-heading">Addons</div>
-                        <a class="nav-link" href="<?= base_url('backend/'); ?>charts.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Charts
+                        <a class="nav-link" href="<?= base_url('user/pemeliharaan') ?>">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            Pelaporan Pemeliharaan
                         </a>
-                        <a class="nav-link" href="<?= base_url('backend/'); ?>tables.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Tables
+                        <a class="nav-link collapsed" href="<?= base_url('user/report') ?>">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            Report pemeliharaan
                         </a>
                     </div>
                 </div>
@@ -121,9 +121,8 @@
                                     <form action="<?= base_url('user/pelaporan'); ?>" method="POST" enctype="multipart/form-data">
                                         <!-- Kota Lokasi Kejadian -->
                                         <div class="mb-3">
-                                            <label for="kota" class="form-label"><i class="fas fa-map-marker-alt"></i> Kota/Kabupaten:</label>
+                                            <label for="kota" class="form-label"><i class="fas fa-solid fa-map"></i> Kota/Kabupaten:</label>
                                             <select class="form-control" id="kota" name="kota" required>
-                                                <option value="">-- Pilih Kota/Kabupaten --</option>
                                                 <option value="">-- Pilih Kota/Kabupaten --</option>
                                                     <?php foreach ($kota_options as $kota): ?>
                                                         <option value="<?= htmlspecialchars($kota) ?>"><?= htmlspecialchars($kota) ?></option>

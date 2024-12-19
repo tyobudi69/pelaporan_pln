@@ -74,4 +74,30 @@ class Pelaporan_model extends CI_Model
 
         return $this->db->get()->result_array();
     }
+
+    public function countAllPelaporan()
+    {
+        return $this->db->count_all('pelaporan'); // Ganti 'pelaporan' dengan nama tabel Anda
+    }
+
+    public function hitungStatusDalamPenanganan() {
+        $this->db->where('status', 'Dalam Penanganan');
+        $this->db->from('pelaporan');
+        return $this->db->count_all_results();
+    }
+
+    public function hitungStatusSelesai() {
+        $this->db->where('status', 'Selesai');
+        $this->db->from('pelaporan');
+        return $this->db->count_all_results();
+    }
+
+    public function getJumlahStatusPelaporan() {
+        $this->db->select('status, COUNT(*) as jumlah');
+        $this->db->from('pelaporan');
+        $this->db->group_by('status');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
 }

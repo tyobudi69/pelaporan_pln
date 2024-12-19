@@ -73,8 +73,8 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                             Pelaporan Kerusakan
                         </a>
-                        <a class="nav-link collapsed" href="<?= base_url('admin/perbaikan') ?>" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        <a class="nav-link" href="<?= base_url('admin/perbaikan') ?>">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                             Pelaporan Perbaikan
                         </a>
                         <div class="sb-sidenav-menu-heading">Addons</div>

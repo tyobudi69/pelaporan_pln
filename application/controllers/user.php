@@ -21,6 +21,23 @@ class user extends CI_Controller
 
         $this->load->model('Pelaporan_model');
 
+        $totalKejadian = $this->db->count_all('pelaporan');
+
+        // Kejadian dalam penanganan
+        $dalamPenanganan = $this->db->where('status', 'Dalam Penanganan')
+            ->count_all_results('pelaporan');
+
+        // Kejadian selesai
+        $kejadianSelesai = $this->db->where('status', 'Selesai')
+            ->count_all_results('pelaporan');
+
+        // Kirim data ke view
+        $status = [
+            'totalKejadian' => $totalKejadian,
+            'dalamPenanganan' => $dalamPenanganan,
+            'kejadianSelesai' => $kejadianSelesai
+        ];
+
         // Ambil data jumlah kerusakan per bulan dari model
         $monthlyReportData = $this->Pelaporan_model->getMonthlyReport();
 
@@ -42,7 +59,7 @@ class user extends CI_Controller
 
         $viewData['pelaporan'] = $this->Pelaporan_model->getAllPelaporan();
 
-        
+
 
         // Untuk request AJAX (misalnya dari DataTables)
         if ($this->input->is_ajax_request()) {
@@ -51,7 +68,7 @@ class user extends CI_Controller
         }
 
         // Untuk menampilkan data di halaman
-        $this->load->view('user/index', array_merge($data, $viewData));
+        $this->load->view('user/index', array_merge($data, $viewData, $status));
     }
 
     /**
@@ -225,4 +242,100 @@ class user extends CI_Controller
         $query = $this->db->get('pelaporan'); // Mengambil data dari tabel 'pelaporan'
         return $query->result_array();
     }
+
+    public function dashboard()
+    {
+        // Ambil data user dari session
+        $viewData['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        // Hitung jumlah pelaporan dari database
+        $viewData['jumlah_pelaporan'] = $this->Pelaporan_model->countAllPelaporan();
+        $viewData['dalam_penanganan'] = $this->Pelaporan_model->countByStatus('Dalam Penanganan');
+        $viewData['selesai'] = $this->Pelaporan_model->countByStatus('Selesai');
+
+        // Kirim data ke view
+        $this->load->view('user/dashboard', $viewData);
+    }
+
+    public function pemeliharaan()
+    {
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])
+            ->row_array();
+
+                $this->load->model('pemeliharaan_model'); // Pastikan model dimuat
+                $data['pemeliharaan'] = $this->pemeliharaan_model->getPemeliharaanData(); // Ambil data dari model
+                
+    
+            // Untuk menampilkan data di halaman
+            $this->load->view('user/pemeliharaan', array_merge($data));
+    }
+
+    public function update_pemeliharaan()
+    {
+        $no_regis = $this->input->post('no_regis');
+        $jenis_kesalahan = $this->input->post('jenis_kesalahan');
+        $jenis_tindakan = $this->input->post('jenis_tindakan');
+        $gambar = null;
+    
+        // Set upload configurations
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['max_size'] = 2048; // 2 MB
+        $config['file_name'] = time() . '_' . $_FILES['gambar']['name'];
+    
+        // Load upload library
+        $this->load->library('upload', $config);
+    
+        // Handle file upload
+        if (!empty($_FILES['gambar']['name'])) {
+            if ($this->upload->do_upload('gambar')) {
+                $uploadData = $this->upload->data();
+                $gambar = 'uploads/' . $uploadData['file_name']; // Save uploaded file path
+            } else {
+                // Log error if upload fails
+                $error = $this->upload->display_errors();
+                log_message('error', 'File upload error: ' . $error);
+                show_error($error); // Optional: Debugging purpose
+                return;
+            }
+        }
+    
+        // Prepare data for update
+        $data = [
+            'jenis_kesalahan' => $jenis_kesalahan,
+            'jenis_tindakan' => $jenis_tindakan,
+        ];
+    
+        // Include the uploaded image only if a new file was uploaded
+        if ($gambar) {
+            $data['gambar'] = $gambar;
+        }
+    
+        // Update database
+        $this->db->where('no_regis', $no_regis);
+        $this->db->update('pemeliharaan', $data);
+    
+        // Redirect to the page with a success or error message
+        if ($this->db->affected_rows() > 0) {
+            $this->session->set_flashdata('success', 'Data updated successfully.');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to update data.');
+        }
+    
+        redirect('user/pemeliharaan');
+    }
+    
+    public function report()
+    {
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $viewData['pelaporan'] = $this->Pelaporan_model->getAllPelaporan();
+
+        $this->load->model('pemeliharaan_model'); // Pastikan model dimuat
+        $data['pemeliharaan'] = $this->pemeliharaan_model->getPemeliharaanData();
+
+        // Untuk menampilkan data di halaman
+        $this->load->view('user/report', array_merge($data, $viewData));
+    }
+
 }
