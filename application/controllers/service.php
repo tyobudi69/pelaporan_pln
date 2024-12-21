@@ -75,4 +75,67 @@ class Service extends CI_Controller
 
         redirect('user/perbaikan');
     }
+
+    public function updateStatusAction()
+    {
+        $no_regis = $this->input->post('no_regis');
+
+        // Additional data to update
+        $updateData = array(
+            'status' => 'Dalam Penanganan'
+        );
+
+        $this->db->where('no_regis', $no_regis);
+        $result = $this->db->update('pemeliharaan', $updateData);
+
+        if ($result) {
+            $this->session->set_flashdata('message', 'Status berhasil diperbarui menjadi "Dalam Penanganan".');
+        } else {
+            $this->session->set_flashdata('message', 'Gagal memperbarui status.');
+        }
+
+        redirect('user/report');
+    }
+
+    public function updateStatusConfirmation()
+    {
+        $no_regis = $this->input->post('no_regis');
+
+        // Additional data to update
+        $updateData = array(
+            'status' => 'Menunggu Konfirmasi'
+        );
+
+        $this->db->where('no_regis', $no_regis);
+        $result = $this->db->update('pemeliharaan', $updateData);
+
+        if ($result) {
+            $this->session->set_flashdata('message', 'Status berhasil diperbarui menjadi "Dalam Penanganan".');
+        } else {
+            $this->session->set_flashdata('message', 'Gagal memperbarui status.');
+        }
+
+        redirect('admin/report');
+    }
+
+    public function updateStatusSelesai()
+    {
+        $no_regis = $this->input->post('no_regis');
+
+        // Additional data to update
+        $updateData = array(
+            'status' => 'Selesai'
+        );
+
+        $this->db->where('no_regis', $no_regis);
+        $result = $this->db->update('pemeliharaan', $updateData);
+
+        if ($result) {
+            $this->session->set_flashdata('message', 'Status berhasil diperbarui menjadi "Selesai".');
+        } else {
+            $this->session->set_flashdata('message', 'Gagal memperbarui status.');
+        }
+
+        redirect('user/report');
+    }
 }

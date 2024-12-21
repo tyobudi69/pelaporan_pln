@@ -8,6 +8,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
         return $query->result_array(); // Mengembalikan data sebagai array
     }
 
+    public function getAllPemeliharaan()
+    {
+        return $this->db->get('pemeliharaan')->result_array(); // Ambil semua data dari tabel 'pemeliharaan'
+    }
 
 
 

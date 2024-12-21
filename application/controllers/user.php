@@ -262,12 +262,12 @@ class user extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])
             ->row_array();
 
-                $this->load->model('pemeliharaan_model'); // Pastikan model dimuat
-                $data['pemeliharaan'] = $this->pemeliharaan_model->getPemeliharaanData(); // Ambil data dari model
-                
-    
-            // Untuk menampilkan data di halaman
-            $this->load->view('user/pemeliharaan', array_merge($data));
+        $this->load->model('pemeliharaan_model'); // Pastikan model dimuat
+        $data['pemeliharaan'] = $this->pemeliharaan_model->getPemeliharaanData(); // Ambil data dari model
+
+
+        // Untuk menampilkan data di halaman
+        $this->load->view('user/pemeliharaan', array_merge($data));
     }
 
     public function update_pemeliharaan()
@@ -276,16 +276,16 @@ class user extends CI_Controller
         $jenis_kesalahan = $this->input->post('jenis_kesalahan');
         $jenis_tindakan = $this->input->post('jenis_tindakan');
         $gambar = null;
-    
+
         // Set upload configurations
         $config['upload_path'] = './uploads/';
         $config['allowed_types'] = 'jpg|jpeg|png|gif';
         $config['max_size'] = 2048; // 2 MB
         $config['file_name'] = time() . '_' . $_FILES['gambar']['name'];
-    
+
         // Load upload library
         $this->load->library('upload', $config);
-    
+
         // Handle file upload
         if (!empty($_FILES['gambar']['name'])) {
             if ($this->upload->do_upload('gambar')) {
@@ -299,32 +299,32 @@ class user extends CI_Controller
                 return;
             }
         }
-    
+
         // Prepare data for update
         $data = [
             'jenis_kesalahan' => $jenis_kesalahan,
             'jenis_tindakan' => $jenis_tindakan,
         ];
-    
+
         // Include the uploaded image only if a new file was uploaded
         if ($gambar) {
             $data['gambar'] = $gambar;
         }
-    
+
         // Update database
         $this->db->where('no_regis', $no_regis);
         $this->db->update('pemeliharaan', $data);
-    
+
         // Redirect to the page with a success or error message
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('success', 'Data updated successfully.');
         } else {
             $this->session->set_flashdata('error', 'Failed to update data.');
         }
-    
+
         redirect('user/pemeliharaan');
     }
-    
+
     public function report()
     {
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
@@ -338,4 +338,41 @@ class user extends CI_Controller
         $this->load->view('user/report', array_merge($data, $viewData));
     }
 
+    public function updateStatusAction()
+    {
+        $no_regis = $this->input->post('no_regis');
+        $updateData = [
+            'status' => 'Dalam Penanganan',
+        ];
+
+        $this->db->where('no_regis', $no_regis);
+        $result = $this->db->update('pemeliharaan', $updateData);
+
+        if ($result) {
+            $this->session->set_flashdata('message', 'Status berhasil diperbarui menjadi "Dalam Penanganan".');
+        } else {
+            $this->session->set_flashdata('message', 'Gagal memperbarui status.');
+        }
+
+        redirect('user/report');
+    }
+
+    public function updateStatusSelesai()
+    {
+        $no_regis = $this->input->post('no_regis');
+        $updateData = [
+            'status' => 'Selesai',
+        ];
+
+        $this->db->where('no_regis', $no_regis);
+        $result = $this->db->update('pemeliharaan', $updateData);
+
+        if ($result) {
+            $this->session->set_flashdata('message', 'Status berhasil diperbarui menjadi "Selesai".');
+        } else {
+            $this->session->set_flashdata('message', 'Gagal memperbarui status.');
+        }
+
+        redirect('user/report');
+    }
 }

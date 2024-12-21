@@ -90,7 +90,7 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                             Report pemeliharaan
                         </a>
-                        
+
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
@@ -116,10 +116,10 @@
                                 <option value="Selesai">Selesai</option>
                             </select>
                         </div>
-                        <div>
+                        <!-- <div>
                             <label class="mr-4" for="date-filter">Filter berdasarkan Tanggal:</label>
                             <input type="date" id="date-filter">
-                        </div>
+                        </div> -->
                     </div>
                     <div class="card mb-4">
                         <div class="card-header">
@@ -368,6 +368,7 @@
     <script src="<?= base_url('backend/'); ?>assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="<?= base_url('backend/'); ?>js/datatables-simple-demo.js"></script>
+    
 </body>
 
 </html>
