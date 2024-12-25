@@ -4,16 +4,91 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class home extends CI_Controller {
 
 	public function index()
-	{
-		$this->load->view('template/home_header');
-    	$this->load->model('pelaporan_model');
-		$data['jumlah_status'] = $this->pelaporan_model->getJumlahStatusPelaporan();
-    	$data['jumlah_dalam_penanganan'] = $this->pelaporan_model->hitungStatusDalamPenanganan();
-		$data['Selesai'] = $this->pelaporan_model->hitungStatusSelesai();
-    	$this->load->view('home/index', $data);
-    	$this->load->view('template/home_footer');
+{
+    $this->load->model('pelaporan_model');
+    
+    // Ambil data jumlah status pelaporan
+    $jumlah_status_array = $this->pelaporan_model->getJumlahStatusPelaporan();
+    $data['jumlah_status'] = 0;
 
+    // Hitung total pelaporan
+    foreach ($jumlah_status_array as $status) {
+        $data['jumlah_status'] += $status['jumlah'];
+    }
+
+    // Hitung jumlah dalam penanganan dan selesai
+    $data['jumlah_dalam_penanganan'] = $this->pelaporan_model->hitungStatusDalamPenanganan();
+    $data['Selesai'] = $this->pelaporan_model->hitungStatusSelesai();
+    
+    // Muat tampilan
+    $this->load->view('template/home_header');
+    $this->load->view('home/index', $data);
+    $this->load->view('template/home_footer');
+
+	// Kejadian dalam penanganan
+	$dalamPenanganan = $this->db->where('status', 'Dalam Penanganan')
+		->count_all_results('pelaporan');
+
+	// Kejadian selesai
+	$kejadianSelesai = $this->db->where('status', 'Selesai')
+		->count_all_results('pelaporan');
+
+	// Kirim data ke view
+	$status = [
+		'totalKejadian' => $totalKejadian,
+		'dalamPenanganan' => $dalamPenanganan,
+		'kejadianSelesai' => $kejadianSelesai
+	];
+
+	// Ambil data jumlah kerusakan per bulan dari model
+	$monthlyReportData = $this->Pelaporan_model->getMonthlyReport();
+
+	$cityReportData = $this->Pelaporan_model->getDamageByCity();
+	$data['cityChartData'] = [
+		'labels' => array_column($cityReportData, 'kota'),
+		'data' => array_column($cityReportData, 'jumlah'),
+	];
+
+	// Siapkan data untuk Bar Chart
+	$data['chartData'] = $this->prepareMonthlyData($monthlyReportData);
+
+	// Data untuk Pie Chart Kerusakan
+	$data['kerusakan'] = [
+		'Butuh Penanganan' => $this->Pelaporan_model->countByStatus('Butuh Penanganan'),
+		'Dalam Penanganan' => $this->Pelaporan_model->countByStatus('Dalam Penanganan'),
+		'Selesai' => $this->Pelaporan_model->countByStatus('Selesai'),
+	];
+
+	$viewData['pelaporan'] = $this->Pelaporan_model->getAllPelaporan();
+
+	// Untuk request AJAX (misalnya dari DataTables)
+	if ($this->input->is_ajax_request()) {
+		echo json_encode(['data' => $viewData['pelaporan']]);
+		return;
 	}
+
+	// Untuk menampilkan data di halaman
+	$this->load->view('home/index', array_merge($data, $viewData, $status));
+}
+
+	private function prepareMonthlyData($monthlyReportData){
+		$monthlyData = arrya_fill(1, 12, 0); // Inisialisasi bulan (1-12) dengan nilai 0
+
+		foreach($monthlyReportData as $row) {
+			$monthlyData[(int) $row['bulan']] = (int) $row['jumlah'];
+		}
+
+		return[
+			'labels' => [
+				'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+			],
+			'data' => array_values($monthlyData),
+		];
+	}
+
+
+
 
     public function about()
 	{
