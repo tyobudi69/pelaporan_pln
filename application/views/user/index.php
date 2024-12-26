@@ -62,7 +62,7 @@
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Core</div>
@@ -100,6 +100,12 @@
                     Start Bootstrap
                 </div> -->
             </nav>
+            <style>
+                body{
+                    font-family: Arial, sans-serif;
+                    background-color: #1161b1;
+                }
+            </style>
         </div>
         <div id="layoutSidenav_content">
             <main>
@@ -112,7 +118,7 @@
                     <style>
                         body {
                             font-family: Arial, sans-serif;
-                            background-color: #f4f6f9;
+                            background-color: #d0efff;
                             margin: 10px;
                             padding: 20px;
                         }
@@ -126,7 +132,7 @@
                         }
 
                         .card {
-                            background: #ffffff;
+                            background: #f0f0f0;
                             border: 1px solid #ddd;
                             border-radius: 30px;
                             padding: 20px;

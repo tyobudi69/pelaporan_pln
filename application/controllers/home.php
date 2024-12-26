@@ -3,35 +3,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class home extends CI_Controller {
 
-	public function index()
-{
-    $this->load->model('pelaporan_model');
-    
+	public function __construct(Type $var = null) {
+		parent::__construct();
+		$this->load->model('Pelaporan_model');
+	}
+	public function index(){
+
     // Ambil data jumlah status pelaporan
-    $jumlah_status_array = $this->pelaporan_model->getJumlahStatusPelaporan();
+    $jumlah_status_array = $this->Pelaporan_model->getJumlahStatusPelaporan();
     $data['jumlah_status'] = 0;
 
     // Hitung total pelaporan
-    foreach ($jumlah_status_array as $status) {
-        $data['jumlah_status'] += $status['jumlah'];
+    foreach ($jumlah_status_array as $status_total) {
+        $data['jumlah_status'] += $status_total['jumlah'];
     }
 
     // Hitung jumlah dalam penanganan dan selesai
-    $data['jumlah_dalam_penanganan'] = $this->pelaporan_model->hitungStatusDalamPenanganan();
-    $data['Selesai'] = $this->pelaporan_model->hitungStatusSelesai();
+    $data['jumlah_dalam_penanganan'] = $this->Pelaporan_model->hitungStatusDalamPenanganan();
+    $data['Selesai'] = $this->Pelaporan_model->hitungStatusSelesai();
     
     // Muat tampilan
     $this->load->view('template/home_header');
-    $this->load->view('home/index', $data);
-    $this->load->view('template/home_footer');
+    // $this->load->view('home/index', array_merge $data, $viewData, $status);
+    // $this->load->view('template/home_footer');
 
-	// Kejadian dalam penanganan
+
+	$totalKejadian = $this->db->count_all('pelaporan');
+
 	$dalamPenanganan = $this->db->where('status', 'Dalam Penanganan')
-		->count_all_results('pelaporan');
+	->count_all_results('pelaporan');
 
-	// Kejadian selesai
 	$kejadianSelesai = $this->db->where('status', 'Selesai')
-		->count_all_results('pelaporan');
+	->count_all_results('pelaporan');
 
 	// Kirim data ke view
 	$status = [
@@ -40,7 +43,6 @@ class home extends CI_Controller {
 		'kejadianSelesai' => $kejadianSelesai
 	];
 
-	// Ambil data jumlah kerusakan per bulan dari model
 	$monthlyReportData = $this->Pelaporan_model->getMonthlyReport();
 
 	$cityReportData = $this->Pelaporan_model->getDamageByCity();
@@ -49,36 +51,38 @@ class home extends CI_Controller {
 		'data' => array_column($cityReportData, 'jumlah'),
 	];
 
-	// Siapkan data untuk Bar Chart
-	$data['chartData'] = $this->prepareMonthlyData($monthlyReportData);
-
-	// Data untuk Pie Chart Kerusakan
+	// Siapkan data untuk bar chart
 	$data['kerusakan'] = [
 		'Butuh Penanganan' => $this->Pelaporan_model->countByStatus('Butuh Penanganan'),
 		'Dalam Penanganan' => $this->Pelaporan_model->countByStatus('Dalam Penanganan'),
-		'Selesai' => $this->Pelaporan_model->countByStatus('Selesai'),
+        'Selesai' => $this->Pelaporan_model->countByStatus('Selesai'),
 	];
-
+	
 	$viewData['pelaporan'] = $this->Pelaporan_model->getAllPelaporan();
 
-	// Untuk request AJAX (misalnya dari DataTables)
-	if ($this->input->is_ajax_request()) {
+
+	// Untuk request AJAX 
+	if($this->input->is_ajax_request()){
 		echo json_encode(['data' => $viewData['pelaporan']]);
 		return;
 	}
 
 	// Untuk menampilkan data di halaman
 	$this->load->view('home/index', array_merge($data, $viewData, $status));
-}
+	$this->load->view('template/home_footer');
+	}
 
-	private function prepareMonthlyData($monthlyReportData){
-		$monthlyData = arrya_fill(1, 12, 0); // Inisialisasi bulan (1-12) dengan nilai 0
 
-		foreach($monthlyReportData as $row) {
+	// Menyiapkan data bulanan
+	private function prepareMonthlyData($monthlyReportData)
+	{
+		$monthlyData = array_fill(1, 12, 0);
+
+		foreach($monthlyReportData as $row){
 			$monthlyData[(int) $row['bulan']] = (int) $row['jumlah'];
 		}
 
-		return[
+		return [
 			'labels' => [
 				'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
                 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
@@ -86,8 +90,6 @@ class home extends CI_Controller {
 			'data' => array_values($monthlyData),
 		];
 	}
-
-
 
 
     public function about()

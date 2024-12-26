@@ -101,38 +101,6 @@
     <main>
         <body>
             <div class="dashboard-grid">
-                <!-- Card for Total Kejadian -->
-                <div class="card">
-                    <div class="card-header">
-                        <span class="card-title">Total Kejadian</span>
-                         <i class="fas fa-exclamation-circle"></i>
-                    </div>
-                <div class="card-value" id="totalIncidents">
-                    <?= htmlspecialchars($totalKejadian) ?>
-                        </div>
-                    </div>
-                    <!-- Card for Dalam Penanganan -->
-                     <div class="card">
-                        <div class="card-header">
-                            <span class="card-title">Dalam Penanganan</span>
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                        <div class="card-value" id="inProgressIncidents">
-                            <?= htmlspecialchars($dalamPenanganan) ?>
-                        </div>
-                    </div>
-                    <!-- Card for Kejadian Selesai -->
-                     <div class="card">
-                        <div class="card-header">
-                            <span class="card-title">Kejadian Selesai</span>
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <div class="card-value" id="completedActions">
-                            <?= htmlspecialchars($kejadianSelesai) ?>
-                        </div>
-                    </div>
-                </div>
-
             </body>
             <div class="row">
                 <div class="col-xl-6">
@@ -145,14 +113,12 @@
                         </div>
                     </div>
                         <script>
-                            document.addEventListener("DOMContentLoaded", function() {
-                                const chartData = <?= json_encode($chartData) ?>;
+                            document.addEventListener("DOMContentLoaded", function(){
+                                const chartData = <?= json_encode($chartData)?>;
 
-                                // Debug untuk memastikan data
                                 console.log(chartData);
 
-                                // Cek apakah chartData memiliki data yang valid
-                                if (!chartData || !chartData.labels || !chartData.data) {
+                                if(!chartData || !chartData.labels || !chartData.data){
                                     console.error("Chart data is invalid or undefined");
                                     return;
                                 }
@@ -160,16 +126,17 @@
                                 const ctx = document.getElementById("myAreaChart3").getContext("2d");
 
                                 new Chart(ctx, {
-                                    type: "line", // Mengubah tipe chart menjadi area (line dengan area di bawahnya)
+                                    type: "line",
                                     data: {
-                                        labels: chartData.labels, // Label bulan
-                                        datasets: [{
+                                        label:chartData.labels, // Label bulan
+                                        datasets:[{
+                                            
                                             label: "Jumlah Kerusakan",
                                             backgroundColor: "rgba(2,117,216,0.75)", // Warna area chart
                                             borderColor: "rgba(2,117,216,1)", // Warna garis
                                             fill: true, // Menambahkan pengisian area chart
-                                            data: chartData.data, // Data jumlah kerusakan
-                                        }],
+                                            data: chartData.data, // Data jumlah kerusakan  
+                                        }]
                                     },
                                     options: {
                                         responsive: true,
@@ -194,7 +161,7 @@
                                             },
                                         },
                                     },
-                                });
+                                }),
                             });
                         </script>
                         <div class="col-xl-6">
