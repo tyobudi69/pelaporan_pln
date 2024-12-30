@@ -46,7 +46,7 @@
                 <div class="d-inline-flex align-items-center" style="height: 45px;">
                     <small class="me-3 text-light"><i class="fa fa-map-marker-alt me-2"></i>Jl. Panglima Sudirman No.69, Purworejo, Kec. Purworejo, Kota Pasuruan, Jawa Timur 67116</small>
                     <small class="me-3 text-light"><i class="fa fa-phone-alt me-2"></i>(0343)426516</small>
-                    <small class="text-light"><i class="fa fa-envelope-open me-2"></i>plnspasuruan.com</small>
+                    <small class="text-light"><i class="fa fa-envelope-open me-2"></i>plnpsr@pln.co.id</small>
                 </div>
             </div>
             <div class="col-lg-4 text-center text-lg-end">

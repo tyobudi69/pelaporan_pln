@@ -62,7 +62,7 @@
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Core</div>
@@ -132,12 +132,17 @@
                         }
 
                         .card {
-                            background: #f0f0f0;
+                            /* background: #f0f0f0; */
                             border: 1px solid #ddd;
                             border-radius: 30px;
                             padding: 20px;
                             text-align: center;
                             transition: all 0.3s ease;
+                            border-radius: 19px;
+                            border-radius: 19px;
+                            background:rgb(255, 255, 255);
+                            box-shadow:  44px -44px 88px rgb(255, 255, 255),
+                            -44px 44px 88pxrgb(250, 250, 250);
                         }
 
                         .card:hover {
