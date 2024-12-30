@@ -82,13 +82,9 @@
                             Pelaporan Perbaikan
                         </a>
                         <div class="sb-sidenav-menu-heading">Addons</div>
-                        <a class="nav-link" href="<?= base_url('backend/'); ?>charts.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Charts
-                        </a>
-                        <a class="nav-link" href="<?= base_url('backend/'); ?>tables.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Tables
+                        <a class="nav-link collapsed" href="<?= base_url('admin/report') ?>">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            Report pemeliharaan
                         </a>
                     </div>
                 </div>
