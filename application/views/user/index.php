@@ -100,6 +100,12 @@
                     Start Bootstrap
                 </div> -->
             </nav>
+            <style>
+                body{
+                    font-family: Arial, sans-serif;
+                    background-color: #1161b1;
+                }
+            </style>
         </div>
         <div id="layoutSidenav_content">
             <main>
@@ -112,7 +118,7 @@
                     <style>
                         body {
                             font-family: Arial, sans-serif;
-                            background-color: #f4f6f9;
+                            background-color: #d0efff;
                             margin: 10px;
                             padding: 20px;
                         }
@@ -126,12 +132,17 @@
                         }
 
                         .card {
-                            background: #ffffff;
+                            /* background: #f0f0f0; */
                             border: 1px solid #ddd;
                             border-radius: 30px;
                             padding: 20px;
                             text-align: center;
                             transition: all 0.3s ease;
+                            border-radius: 19px;
+                            border-radius: 19px;
+                            background:rgb(255, 255, 255);
+                            box-shadow:  44px -44px 88px rgb(255, 255, 255),
+                            -44px 44px 88pxrgb(250, 250, 250);
                         }
 
                         .card:hover {
